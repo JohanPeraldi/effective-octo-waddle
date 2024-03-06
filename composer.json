@@ -1,0 +1,17 @@
+{
+    "name": "johan/backend",
+    "autoload": {
+        "psr-4": {
+            "Johan\\Backend\\": "./backend"
+        }
+    },
+    "authors": [
+        {
+            "name": "Johan Peraldi",
+            "email": "johan.peraldi@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
