@@ -10,11 +10,12 @@ abstract class ProductBase
   protected $conn; // Database connection
 
   // Constructor
-  public function __construct($sku, $name, $price)
+  public function __construct($attributes, $conn)
   {
-    $this->setSku($sku);
-    $this->setName($name);
-    $this->setPrice($price);
+    $this->setSku($attributes['sku']);
+    $this->setName($attributes['name']);
+    $this->setPrice($attributes['price']);
+    $this->conn = $conn; // Set the database connection upon instantiation
   }
 
   // Setters
@@ -29,10 +30,6 @@ abstract class ProductBase
   public function setPrice($price)
   {
     $this->price = $price;
-  }
-  public function setConnection($conn)
-  {
-    $this->conn = $conn;
   }
 
   // Getters
@@ -57,6 +54,11 @@ class Dvd extends ProductBase
 {
   private $size;
 
+  public function __construct($attributes, $conn)
+  {
+    parent::__construct($attributes, $conn);
+    $this->setSize($attributes['size']);
+  }
   public function setSize($size)
   {
     $this->size = $size;
@@ -80,6 +82,11 @@ class Book extends ProductBase
 {
   private $weight;
 
+  public function __construct($attributes, $conn)
+  {
+    parent::__construct($attributes, $conn);
+    $this->setWeight($attributes['weight']);
+  }
   public function setWeight($weight)
   {
     $this->weight = $weight;
@@ -105,6 +112,13 @@ class Furniture extends ProductBase
   private $width;
   private $length;
 
+  public function __construct($attributes, $conn)
+  {
+    parent::__construct($attributes, $conn);
+    $this->setHeight($attributes['height']);
+    $this->setWidth($attributes['width']);
+    $this->setLength($attributes['length']);
+  }
   public function setHeight($height)
   {
     $this->height = $height;
@@ -138,5 +152,57 @@ class Furniture extends ProductBase
 
     $stmt = $this->conn->prepare("INSERT INTO furniture (product_id, height, width, length) VALUES (?, ?, ?, ?)");
     $stmt->execute([$productId, $height, $width, $length]);
+  }
+}
+
+// Product Factory
+interface ProductFactory
+{
+  public static function createProduct($attributes, $conn): ProductBase;
+}
+
+class DvdFactory implements ProductFactory
+{
+  public static function createProduct($attributes, $conn): ProductBase
+  {
+    return new Dvd($attributes, $conn);
+  }
+}
+
+class BookFactory implements ProductFactory
+{
+  public static function createProduct($attributes, $conn): ProductBase
+  {
+    return new Book($attributes, $conn);
+  }
+}
+
+class FurnitureFactory implements ProductFactory
+{
+  public static function createProduct($attributes, $conn): ProductBase
+  {
+    return new Furniture($attributes, $conn);
+  }
+}
+
+class ProductFactoryRegistry
+{
+  private static $factories = [];
+
+  public static function registerFactory($type, ProductFactory $factory)
+  {
+    self::$factories[$type] = $factory;
+  }
+
+  public static function createProduct($type, $attributes, $conn): ProductBase
+  {
+    if (!isset(self::$factories[$type])) {
+      throw new \InvalidArgumentException("No factory registered for type: {$type}");
+    }
+
+    $factory = self::$factories[$type];
+    $product = $factory::createProduct($attributes, $conn);
+
+    return $product;
   }
 }

@@ -16,9 +16,6 @@ class DatabaseHandler
 
   public function saveProduct(ProductBase $product)
   {
-    // Set the database connection in the product
-    $product->setConnection($this->conn);
-
     // Use $product's getters to save common properties
     $sku = $product->getSku();
     $name = $product->getName();

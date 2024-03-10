@@ -10,6 +10,7 @@ $dbname = $_ENV['DB_NAME'];
 $username = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASSWORD'];
 
+// For debugging
 $successMessage = "Connected to database successfully!";
 $errorMessage = "Connection failed!";
 
@@ -17,10 +18,12 @@ $errorMessage = "Connection failed!";
 try {
   $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "<h1>$successMessage</h1>";
+  // For debugging
+  // echo "<h1>$successMessage</h1>";
 } catch (PDOException $e) {
-  echo "<h1>$errorMessage</h1>";
-  echo "<p>" . $e->getMessage() . "</p>";
+  // For debugging
+  // echo "<h1>$errorMessage</h1>";
+  // echo "<p>" . $e->getMessage() . "</p>";
   exit; // Ensure script stops if connection fails
 }
 
