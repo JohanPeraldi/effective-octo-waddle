@@ -1,8 +1,13 @@
 <?php
+
+// For debugging
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 header('Access-Control-Allow-Origin: http://localhost:5173'); // Allow requests from your Vue app
 header('Content-Type: application/json'); // Set the content type to JSON
 
-require_once 'db_connect.php';
+require_once __DIR__ . '/../Database/db_connect.php';
 
 $sql = "SELECT p.id, p.sku, p.name, p.price, p.created_at, 
                d.size AS dvd_size, 
