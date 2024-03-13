@@ -24,7 +24,7 @@ try {
   // SQL statements to create tables
   $tableCreationQueries = [
     "CREATE TABLE product (
-            id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             sku VARCHAR(255) NOT NULL,
             name VARCHAR(255) NOT NULL,
             price DECIMAL(10,2) NOT NULL,
@@ -33,24 +33,24 @@ try {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
 
     "CREATE TABLE dvd (
-            product_id INT(10) UNSIGNED NOT NULL,
-            size DECIMAL(5,2) NOT NULL,
+            product_id INT UNSIGNED NOT NULL,
+            size INT UNSIGNED NOT NULL,
             PRIMARY KEY (product_id),
             CONSTRAINT dvd_ibfk_1 FOREIGN KEY (product_id) REFERENCES product (id) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
 
     "CREATE TABLE book (
-            product_id INT(10) UNSIGNED NOT NULL,
+            product_id INT UNSIGNED NOT NULL,
             weight DECIMAL(5,2) NOT NULL,
             PRIMARY KEY (product_id),
             CONSTRAINT book_ibfk_1 FOREIGN KEY (product_id) REFERENCES product (id) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci",
 
     "CREATE TABLE furniture (
-            product_id INT(10) UNSIGNED NOT NULL,
-            height DECIMAL(5,2) NOT NULL,
-            width DECIMAL(5,2) NOT NULL,
-            length DECIMAL(5,2) NOT NULL,
+            product_id INT UNSIGNED NOT NULL,
+            height INT UNSIGNED NOT NULL,
+            width INT UNSIGNED NOT NULL,
+            length INT UNSIGNED NOT NULL,
             PRIMARY KEY (product_id),
             CONSTRAINT furniture_ibfk_1 FOREIGN KEY (product_id) REFERENCES product (id) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
