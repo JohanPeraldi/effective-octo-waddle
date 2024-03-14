@@ -18,13 +18,13 @@ $sql = "SELECT p.id, p.sku, p.name, p.price, p.created_at,
         LEFT JOIN book b ON p.id = b.product_id
         LEFT JOIN furniture f ON p.id = f.product_id";
 
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-if ($products) {
+try {
+  $stmt = $conn->prepare($sql);
+  $stmt->execute();
+  $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
   echo json_encode($products);
-} else {
-  echo json_encode([]);
+} catch (PDOException $e) {
+  http_response_code(500);
+  echo json_encode(["error" => "Failed to fetch products"]);
+  exit;
 }
