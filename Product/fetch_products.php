@@ -1,11 +1,7 @@
 <?php
 
-// For debugging
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-header('Access-Control-Allow-Origin: http://localhost:5173'); // Allow requests from your Vue app
-header('Content-Type: application/json'); // Set the content type to JSON
+header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Content-Type: application/json');
 
 require_once __DIR__ . '/../Database/db_connect.php';
 

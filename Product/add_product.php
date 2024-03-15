@@ -28,5 +28,5 @@ $furniture->setLength($_POST['length']);
 
 $dbHandler->saveProduct($furniture);
 
-// Output or redirect as needed
+// Redirect
 header('Location: /');

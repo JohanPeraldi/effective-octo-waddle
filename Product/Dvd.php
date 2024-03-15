@@ -22,7 +22,6 @@ class Dvd extends ProductBase
 
   public function saveProductSpecifics($productId)
   {
-    // Implement saving logic specific to DVD products
     $size = $this->getSize();
 
     $stmt = $this->conn->prepare("INSERT INTO dvd (product_id, size) VALUES (?, ?)");

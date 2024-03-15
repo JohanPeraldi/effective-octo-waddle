@@ -22,7 +22,6 @@ class Book extends ProductBase
 
   public function saveProductSpecifics($productId)
   {
-    // Implement saving logic specific to book products
     $weight = $this->getWeight();
 
     $stmt = $this->conn->prepare("INSERT INTO book (product_id, weight) VALUES (?, ?)");
