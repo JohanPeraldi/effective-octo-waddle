@@ -1,7 +1,22 @@
 <?php
 
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../Database/db_connect.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
+// Construct the filename based on the environment
+$envFileName = $environment === 'development' ? '.env.development' : '.env.production';
+
+// Specify the path to the directory containing the .env file
+$dotenvDirectoryPath = __DIR__ . '/..';
+
+// Load the environment file
+$dotenv = Dotenv\Dotenv::createImmutable($dotenvDirectoryPath, $envFileName);
+$dotenv->load();
+
+// Set the response headers
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: http://localhost:5173');
+header('Access-Control-Allow-Origin: ' . $_ENV['FRONTEND_URL']);
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
 
@@ -9,9 +24,6 @@ header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
   exit; // No further action is needed for preflight requests
 }
-
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../Database/db_connect.php';
 
 use backend\Database\DatabaseHandler;
 use backend\Product\BookFactory;

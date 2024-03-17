@@ -1,8 +1,16 @@
 <?php
 
+require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+// Construct the filename based on the environment
+$envFileName = $environment === 'development' ? '.env.development' : '.env.production';
+
+// Specify the path to the directory containing the .env file
+$dotenvDirectoryPath = __DIR__ . '/..';
+
+// Load the environment file
+$dotenv = Dotenv\Dotenv::createImmutable($dotenvDirectoryPath, $envFileName);
 $dotenv->load();
 
 $host = $_ENV['DB_HOST'];

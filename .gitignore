@@ -1,4 +1,5 @@
 .DS_Store
 .vscode/
 vendor/
-.env
+.env.development
+.env.production
