@@ -1,9 +1,4 @@
 <?php
-// For debugging purposes
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-echo "Script started\n";
 
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -121,5 +116,3 @@ try {
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
 }
-
-echo "Script ended\n";
