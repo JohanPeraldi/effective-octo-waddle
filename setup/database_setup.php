@@ -1,19 +1,31 @@
 <?php
+// For debugging purposes
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
+echo "Script started\n";
+
+require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+// Construct the filename based on the environment
+$envFileName = $environment === 'development' ? '.env.development' : '.env.production';
+
+// Specify the path to the directory containing the .env file
+$dotenvDirectoryPath = __DIR__ . '/..';
+
+// Load the environment file
+$dotenv = Dotenv\Dotenv::createImmutable($dotenvDirectoryPath, $envFileName);
 $dotenv->load();
 
 $host = $_ENV['DB_HOST'];
 $dbname = $_ENV['DB_NAME'];
 $username = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASSWORD'];
-$socket = $_ENV['DB_SOCKET'];
 
 try {
   // Create a new PDO instance for initial setup without specifying the dbname
-  $pdo = new PDO("mysql:host=$host;unix_socket=$socket", $username, $password);
+  $pdo = new PDO("mysql:host=$host", $username, $password);
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   // Drop the existing database and create a new one
@@ -109,3 +121,5 @@ try {
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
 }
+
+echo "Script ended\n";
